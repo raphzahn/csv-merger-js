@@ -2,18 +2,7 @@
     box-sizing: border-box;
     margin:0;
     padding:0;
-}
-
-
-.btn{
-    width: 100%;
-    padding:20px;
-    font-size:20pt ;
-    font-weight:bold;
-    font-family:"Vollkorn";
-    color:#bbb;
-    margin:10px 0;
-}
+} 
 
 #drop{
 	border:2px dashed #bbb;
@@ -21,11 +10,20 @@
 	-webkit-border-radius:5px;
 	border-radius:5px;
 	padding:25px;
-	text-align:center;
-	font:20pt bold,"Vollkorn";color:#bbb
+    text-align:center;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 38px;
+}
+#drop svg{
+    width:100px;
 }
 a { text-decoration: none }
 
+input[type=submit]{
+    margin-top:1rem;
+    width:100%;
+}
 .ds-none{
     display:none;
 }

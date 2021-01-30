@@ -79,3 +79,5 @@ drop.addEventListener('drop', (e) => {
 	e.preventDefault();
 	readFile(e.dataTransfer.files);
 }, false);
+
+exportBtn.disabled = true;

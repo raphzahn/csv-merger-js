@@ -5,12 +5,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Content-Security-Policy" content="script-src 'self' https:">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 <link rel="stylesheet" href="style.css">
 <title>SheetJS Electron Demo</title>
 </head>
 <body>
-<button id="readBtn" class="btn">Click here to select a file from your computer</button>
-<div id="drop">Drop a spreadsheet file here to see sheet data</div>
+
+<div id="drop">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+    </svg>
+    <p>Drag & Drop Files Here or</p>
+    <button id="readBtn" class="button-primary">Click here to select a file from your computer</button>
+</div>
 <div class="ds-none"><input type="file" name="xlfile" id="readIn" /> ... or click here to select a file</div>
 <p><input type="submit" value="Merge and Convert" id="exportBtn" class="btn" disabled="true"></p>
 <script src="index.js"></script>
