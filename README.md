@@ -7,5 +7,5 @@ ToDo
 - [X] add Electron
 - [X] create Page
 - [X] read CSV Files
-- [] Edit JSON to match length of each element
-- [] merge all CSV Files to one Json Object
+- [ ] Edit JSON to match length of each element
+- [ ] merge all CSV Files to one Json Object
