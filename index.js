@@ -3,29 +3,30 @@ const electron = require('electron').remote;
 
 const EXTENSIONS = "xls|xlsx|xlsm|xlsb|xml|csv|txt|dif|sylk|slk|prn|ods|fods|htm|html".split("|");
 
-const processWb = function(wb) {
-	const HTMLOUT = document.getElementById('htmlout');
-	const XPORT = document.getElementById('exportBtn');
-	XPORT.disabled = false;
-	HTMLOUT.innerHTML = "";
-	wb.SheetNames.forEach(function(sheetName) {
-		console.log(XLSX.utils.sheet_to_json(wb.Sheets[sheetName]));
-		XLSX.utils.json_to_sheet()
-		//const htmlstr = XLSX.utils.sheet_to_html(wb.Sheets[sheetName],{editable:true});
-		//HTMLOUT.innerHTML += htmlstr;
+const data = [];
+
+const combine = function(file) {
+	file.SheetNames.forEach(function(sheetName) {
+		for(var i = 0; i < XLSX.utils.sheet_to_json(file.Sheets[sheetName]).length; i++){
+			data.push(XLSX.utils.sheet_to_json(file.Sheets[sheetName])[i]);
+		}
 	});
 };
 
 const readFile = function(files) {
-	const f = files[0];
-	const reader = new FileReader();
-	reader.onload = function(e) {
-		let data = e.target.result;
-        data = new Uint8Array(data);
-       
-		processWb(XLSX.read(data, {type: 'array'}));
-	};
-    reader.readAsArrayBuffer(f);
+	
+	for(var i = 0; i < files.length; i++){
+		let f = files[i];
+		let reader = new FileReader();
+		reader.onload = function(e) {
+			let data = e.target.result;
+			data = new Uint8Array(data);
+			combine(XLSX.read(data, {type: 'array'}));
+		};
+		reader.readAsArrayBuffer(f);
+	}
+	console.log(data);
+
 };
 
 const handleReadBtn = async function() {
@@ -33,16 +34,19 @@ const handleReadBtn = async function() {
 		title: 'Select a file',
 		filters: [{
 			name: "Spreadsheets",
-			extensions: EXTENSIONS
+			extensions: 'csv'
 		}],
-		properties: ['openFile']
+		properties: ['openFile', 'multiSelections']
 	});
-	if(o.filePaths.length > 0) processWb(XLSX.readFile(o.filePaths[0]));
-};
+	for (var i = 0; i < o.filePaths.length; i++) { combine(XLSX.readFile(o.filePaths[i]))};
+	const XPORT = document.getElementById('exportBtn');
+	XPORT.disabled = false;
+	console.log(data);
+	
+}
+	
 
 const exportXlsx = async function() {
-	const HTMLOUT = document.getElementById('htmlout');
-	const wb = XLSX.utils.table_to_book(HTMLOUT);
 	const o = await electron.dialog.showSaveDialog({
 		title: 'Save file as',
 		filters: [{
