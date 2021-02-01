@@ -1,14 +1,13 @@
 const XLSX = require('xlsx');
 const electron = require('electron').remote;
 const fs = require('fs') ;
-
-const EXTENSIONS = "xls|xlsx|xlsm|xlsb|xml|csv|txt|dif|sylk|slk|prn|ods|fods|htm|html".split("|");
+const path = require('path');
 
 const data = [];
 const dataTxt = [];
 const dataXlsx = [];
 const dataCsv = [];
-let path = "";
+let dir = "";
 
 
 const combine = function(file) {
@@ -163,8 +162,7 @@ const choosePath = async function() {
 		title: 'Select Export Directory',
 		properties: ['openDirectory']
 	});
-	console.log(o.filePaths);
-	path = o.filePaths;
+	dir = o.filePaths;
 };
 
 const exportXlsx = function() {
@@ -172,18 +170,29 @@ const exportXlsx = function() {
 	var dataTxtTemp1 = JSON.stringify(dataTxt);
 	var dataTxtTemp2 = dataTxtTemp1.substring(2);
 	var dataTxtTemp3 = dataTxtTemp2.slice(0, -2);
-	fs.writeFile(path+"\\"+filename.value+".txt", dataTxtTemp3, (err) => {
+
+	fs.writeFile(path.join(dir.toString(), filename.value+".txt"), dataTxtTemp3, (err) => {
 		if(err) throw err;
 	});
 	var wb_xslx = XLSX.utils.book_new();
 	XLSX.utils.book_append_sheet(wb_xslx, XLSX.utils.json_to_sheet(dataXlsx))
-	XLSX.writeFile(wb_xslx, path+"\\"+filename.value+".xlsx");
+	XLSX.writeFile(wb_xslx, path.join(dir.toString(), filename.value+".xlsx"));
+
+
 
 	var wb_csv = XLSX.utils.book_new();
 	XLSX.utils.book_append_sheet(wb_csv, XLSX.utils.json_to_sheet(dataCsv))
-	XLSX.writeFile(wb_csv, path+"\\"+filename.value+".csv");
+	XLSX.writeFile(wb_csv, path.join(dir.toString(), filename.value+".csv"));
 
-	electron.dialog.showMessageBox('Export successfull');
+	electron.dialog.showMessageBox(
+		{
+			type: 'info',
+			buttons: ['OK'],
+			defaultId: 2,
+			title: 'Info',
+			message: 'Export successful',
+		}
+	);
 };
 
 // add event listeners
