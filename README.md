@@ -13,4 +13,4 @@ ToDo
 * [X] Create XLSX File 
 * [X] Create CSV File
 * [X] Save to a Selected Location
-* [ ] Build App
+* [X] Add Electron Forge
