@@ -4,6 +4,10 @@
     padding:0;
 } 
 
+body{
+    padding:10px;
+}
+
 #drop{
 	border:2px dashed #bbb;
 	-moz-border-radius:5px;
@@ -20,9 +24,27 @@
 }
 a { text-decoration: none }
 
-input[type=submit]{
+.form-container{
+    display:flex;
+    align-items: center;
+}
+button#pathBtn{
+    width:70%;
     margin-top:1rem;
+}
+input[type=text]{
+    margin-top:1rem;
+    width:20%;
+    float:right;
+}
+label{
+    text-align: right;
+    padding-right:10px;
+    width:10%;
+}
+button#exportBtn{
     width:100%;
+    margin-bottom:0;
 }
 .ds-none{
     display:none;

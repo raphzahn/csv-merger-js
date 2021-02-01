@@ -1,5 +1,6 @@
 const XLSX = require('xlsx');
 const electron = require('electron').remote;
+const fs = require('fs') ;
 
 const EXTENSIONS = "xls|xlsx|xlsm|xlsb|xml|csv|txt|dif|sylk|slk|prn|ods|fods|htm|html".split("|");
 
@@ -7,6 +8,7 @@ const data = [];
 const dataTxt = [];
 const dataXlsx = [];
 const dataCsv = [];
+let path = "";
 
 
 const combine = function(file) {
@@ -18,18 +20,16 @@ const combine = function(file) {
 };
 
 const createTxt = function(data){
-	for(var i = 0;i < data.length;i++){
-		if(!dataTxt.includes(data[i].Vermittler)){
-			dataTxtTemp1.push(data[i].Vermittler);
+	for(var i = 0; i < data.length; i++){
+		if(!dataTxt.includes(data[i]["Vermittler"])){
+			dataTxt.push(data[i]["Vermittler"]);
 		}
 	}
-	var dataTxtTemp2 = JSON.stringify(dataTxtTemp1);
-	var dataTxtTemp3 = dataTxtTemp2.substring(2);
-	var dataTxt = dataTxtTemp3.slice(0, -2);
+	
 }
 
 const createXlsxAndCsv = function(data){
-	for(var i = 0;i < data.length;i++){
+	for(var i = 0; i < data.length; i++){
 		Json = [];
 		Json["VM-Policeninfo"] = data[i]["VM-Policeninfo"];
 		Json["Vermittler"] = data[i]["Vermittler"];
@@ -42,9 +42,9 @@ const createXlsxAndCsv = function(data){
 		Json["Strasse"] = data[i]["Strasse"];
 		Json["Postfach"] = data[i]["Postfach"];
 		Json["PLZ/Ort"] = data[i]["PLZ/Ort"];
-		Json["Policen-Nr.2"] = data[i]["Policen-Nr.2"];
-		Json["Produkt2"] = data[i]["Produkt2"];
-		Json["Gewinn2"] = data[i]["Gewinn2"];
+		Json["Policen-Nr.1"] = data[i]["Policen-Nr.1"];
+		Json["Produkt1"] = data[i]["Produkt1"];
+		Json["Gewinn1"] = data[i]["Gewinn1"];
 		Json["Policen-Nr.2"] = data[i]["Policen-Nr.2"];
 		Json["Produkt2"] = data[i]["Produkt2"];
 		Json["Gewinn2"] = data[i]["Gewinn2"];
@@ -69,24 +69,24 @@ const createXlsxAndCsv = function(data){
 		Json["Policen-Nr.9"] = data[i]["Policen-Nr.9"];
 		Json["Produkt9"] = data[i]["Produkt9"];
 		Json["Gewinn9"] = data[i]["Gewinn9"];
-		Json["Policen-Nr.20"] = data[i]["Policen-Nr.20"];
+		Json["Policen-Nr.10"] = data[i]["Policen-Nr.10"];
 		Json["Produkt20"] = data[i]["Produkt20"];
 		Json["Gewinn20"] = data[i]["Gewinn20"];
-		Json["Policen-Nr.22"] = data[i]["Policen-Nr.22"];
-		Json["Produkt22"] = data[i]["Produkt22"];
-		Json["Gewinn22"] = data[i]["Gewinn22"];
-		Json["Policen-Nr.22"] = data[i]["Policen-Nr.22"];
-		Json["Produkt22"] = data[i]["Produkt22"];
-		Json["Gewinn22"] = data[i]["Gewinn22"];
-		Json["Policen-Nr.23"] = data[i]["Policen-Nr.23"];
-		Json["Produkt23"] = data[i]["Produkt23"];
-		Json["Gewinn23"] = data[i]["Gewinn23"];
-		Json["Policen-Nr.24"] = data[i]["Policen-Nr.24"];
-		Json["Produkt24"] = data[i]["Produkt24"];
-		Json["Gewinn24"] = data[i]["Gewinn24"];
-		Json["Policen-Nr.25"] = data[i]["Policen-Nr.25"];
-		Json["Produkt25"] = data[i]["Produkt25"];
-		Json["Gewinn25"] = data[i]["Gewinn25"];
+		Json["Policen-Nr.11"] = data[i]["Policen-Nr.11"];
+		Json["Produkt11"] = data[i]["Produkt11"];
+		Json["Gewinn11"] = data[i]["Gewinn11"];
+		Json["Policen-Nr.12"] = data[i]["Policen-Nr.12"];
+		Json["Produkt12"] = data[i]["Produkt12"];
+		Json["Gewinn12"] = data[i]["Gewinn12"];
+		Json["Policen-Nr.13"] = data[i]["Policen-Nr.13"];
+		Json["Produkt13"] = data[i]["Produkt13"];
+		Json["Gewinn13"] = data[i]["Gewinn13"];
+		Json["Policen-Nr.14"] = data[i]["Policen-Nr.14"];
+		Json["Produkt14"] = data[i]["Produkt14"];
+		Json["Gewinn14"] = data[i]["Gewinn14"];
+		Json["Policen-Nr.15"] = data[i]["Policen-Nr.15"];
+		Json["Produkt15"] = data[i]["Produkt15"];
+		Json["Gewinn15"] = data[i]["Gewinn15"];
 		Json["Policen-Nr.16"] = data[i]["Policen-Nr.16"];
 		Json["Produkt16"] = data[i]["Produkt16"];
 		Json["Gewinn16"] = data[i]["Gewinn16"];
@@ -158,30 +158,46 @@ const handleReadBtn = async function() {
 	createXlsxAndCsv(data);	
 }
 	
-
-const exportXlsx = async function() {
-	const o = await electron.dialog.showSaveDialog({
-		title: 'Save file as',
-		filters: [{
-			name: "Spreadsheets",
-			extensions: EXTENSIONS
-		}]
+const choosePath = async function() {
+	const o = await electron.dialog.showOpenDialog({
+		title: 'Select Export Directory',
+		properties: ['openDirectory']
 	});
-	console.log(o.filePath);
-	var wb = XLSX.utils.book_new();
-	XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dataXlsx))
-	XLSX.writeFile(wb, o.filePath);
+	console.log(o.filePaths);
+	path = o.filePaths;
+};
+
+const exportXlsx = function() {
+	var filename = document.getElementById('filename');
+	var dataTxtTemp1 = JSON.stringify(dataTxt);
+	var dataTxtTemp2 = dataTxtTemp1.substring(2);
+	var dataTxtTemp3 = dataTxtTemp2.slice(0, -2);
+	fs.writeFile(path+"\\"+filename.value+".txt", dataTxtTemp3, (err) => {
+		if(err) throw err;
+	});
+	var wb_xslx = XLSX.utils.book_new();
+	XLSX.utils.book_append_sheet(wb_xslx, XLSX.utils.json_to_sheet(dataXlsx))
+	XLSX.writeFile(wb_xslx, path+"\\"+filename.value+".xlsx");
+
+	var wb_csv = XLSX.utils.book_new();
+	XLSX.utils.book_append_sheet(wb_csv, XLSX.utils.json_to_sheet(dataCsv))
+	XLSX.writeFile(wb_csv, path+"\\"+filename.value+".csv");
+
+	electron.dialog.showMessageBox('Export successfull');
 };
 
 // add event listeners
 const readBtn = document.getElementById('readBtn');
 const readIn = document.getElementById('readIn');
+const chooseBtn = document.getElementById('pathBtn');
 const exportBtn = document.getElementById('exportBtn');
 const drop = document.getElementById('drop');
 
 readBtn.addEventListener('click', handleReadBtn, false);
 readIn.addEventListener('change', (e) => { readFile(e.target.files); }, false);
+chooseBtn.addEventListener('click', choosePath, false);
 exportBtn.addEventListener('click', exportXlsx, false);
+
 drop.addEventListener('dragenter', (e) => {
 	e.stopPropagation();
 	e.preventDefault();

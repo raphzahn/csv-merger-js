@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Security-Policy" content="script-src 'self' https:">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 <link rel="stylesheet" href="style.css">
-<title>SheetJS Electron Demo</title>
+<title>CSV Merger</title>
 </head>
 <body>
 
@@ -18,8 +18,9 @@
     <p>Drag & Drop Files Here or</p>
     <button id="readBtn" class="button-primary">Click here to select a file from your computer</button>
 </div>
-<div class="ds-none"><input type="file" name="xlfile" id="readIn" /> ... or click here to select a file</div>
-<p><input type="submit" value="Merge and Convert" id="exportBtn" class="btn" disabled="true"></p>
+<div class="ds-none"><input type="file" name="xlfile" id="readIn" /> </div>
+<div class="form-container"><button id="pathBtn" class="btn" >Select a Export Path</button><label for="filename">Filename:</label><input type="text" value="merge" id="filename"></div>
+<button id="exportBtn" class="button-primary btn" disabled="true">Export</button>
 <script src="index.js"></script>
 </body>
 </html>
