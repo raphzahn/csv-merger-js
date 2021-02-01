@@ -168,8 +168,8 @@ const choosePath = async function() {
 const exportXlsx = function() {
 	var filename = document.getElementById('filename');
 	var dataTxtTemp1 = JSON.stringify(dataTxt);
-	var dataTxtTemp2 = dataTxtTemp1.substring(2);
-	var dataTxtTemp3 = dataTxtTemp2.slice(0, -2);
+	var dataTxtTemp2 = dataTxtTemp1.substring(1);
+	var dataTxtTemp3 = dataTxtTemp2.slice(0, -1);
 
 	fs.writeFile(path.join(dir.toString(), filename.value+".txt"), dataTxtTemp3, (err) => {
 		if(err) throw err;
