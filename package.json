@@ -9,7 +9,7 @@
     "make": "electron-forge make"
   },
   "author": "RaphZahn",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "xlsx": "^0.16.9"
