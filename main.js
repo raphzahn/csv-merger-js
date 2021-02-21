@@ -15,7 +15,7 @@ function createWindow() {
 	});
 	win.removeMenu();
 	win.loadURL("file://" + __dirname + "/index.html");
-	//win.webContents.openDevTools();
+	win.webContents.openDevTools();
 	win.on('closed', function () { win = null; });
 }
 if (app.setAboutPanelOptions) app.setAboutPanelOptions({ applicationName: 'sheetjs-electron', applicationVersion: "XLSX " + XLSX.version, copyright: "(C) 2017-present SheetJS LLC" });

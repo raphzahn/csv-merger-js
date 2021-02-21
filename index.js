@@ -150,7 +150,9 @@ const handleReadBtn = async function() {
 		}],
 		properties: ['openFile', 'multiSelections']
 	});
-	for (var i = 0; i < o.filePaths.length; i++) { combine(XLSX.readFile(o.filePaths[i]))};
+	for (var i = 0; i < o.filePaths.length; i++) { 
+		combine(XLSX.readFile(o.filePaths[i]))
+	}
 	const XPORT = document.getElementById('exportBtn');
 	XPORT.disabled = false;
 	createTxt(data);
@@ -171,7 +173,8 @@ const exportXlsx = function() {
 	var dataTxtTemp2 = dataTxtTemp1.substring(1);
 	var dataTxtTemp3 = dataTxtTemp2.slice(0, -1);
 
-	fs.writeFile(path.join(dir.toString(), filename.value+".txt"), dataTxtTemp3, (err) => {
+	fs.writeFile(
+		path.join(dir.toString(), filename.value+".txt"), dataTxtTemp3, (err) => {
 		if(err) throw err;
 	});
 	var wb_xslx = XLSX.utils.book_new();
@@ -197,30 +200,32 @@ const exportXlsx = function() {
 
 // add event listeners
 const readBtn = document.getElementById('readBtn');
-const readIn = document.getElementById('readIn');
 const chooseBtn = document.getElementById('pathBtn');
 const exportBtn = document.getElementById('exportBtn');
 const drop = document.getElementById('drop');
 
 readBtn.addEventListener('click', handleReadBtn, false);
-readIn.addEventListener('change', (e) => { readFile(e.target.files); }, false);
 chooseBtn.addEventListener('click', choosePath, false);
 exportBtn.addEventListener('click', exportXlsx, false);
 
 drop.addEventListener('dragenter', (e) => {
 	e.stopPropagation();
 	e.preventDefault();
-	e.dataTransfer.dropEffect = 'copy';
 }, false);
 drop.addEventListener('dragover', (e) => {
 	e.stopPropagation();
 	e.preventDefault();
-	e.dataTransfer.dropEffect = 'copy';
 }, false);
 drop.addEventListener('drop', (e) => {
 	e.stopPropagation();
 	e.preventDefault();
-	readFile(e.dataTransfer.files);
+	for (const f of e.dataTransfer.files) { 
+		combine(XLSX.readFile(f.path))
+	} 
+	const XPORT = document.getElementById('exportBtn');
+	XPORT.disabled = false;
+	createTxt(data);
+	createXlsxAndCsv(data);	
 }, false);
 
 exportBtn.disabled = true;
