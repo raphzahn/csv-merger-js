@@ -24,7 +24,10 @@
   },
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "src/icon/merge_512x512",
+        "icon": ""
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
