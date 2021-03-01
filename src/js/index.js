@@ -3,7 +3,7 @@ const electron = require('electron').remote;
 const fs = require('fs') ;
 const path = require('path');
 
-const data = [];
+let data = [];
 const dataTxt = [];
 const dataXlsx = [];
 const dataCsv = [];
@@ -101,9 +101,9 @@ const createXlsxAndCsv = function(data){
 		Json["Policen-Nr.20"] = data[i]["Policen-Nr.20"];
 		Json["Produkt20"] = data[i]["Produkt20"];
 		Json["Gewinn20"] = data[i]["Gewinn20"];
-		Json["Policen-Nr.22"] = data[i]["Policen-Nr.22"];
-		Json["Produkt22"] = data[i]["Produkt22"];
-		Json["Gewinn22"] = data[i]["Gewinn22"];
+		Json["Policen-Nr.21"] = data[i]["Policen-Nr.21"];
+		Json["Produkt21"] = data[i]["Produkt21"];
+		Json["Gewinn21"] = data[i]["Gewinn21"];
 		Json["Policen-Nr.22"] = data[i]["Policen-Nr.22"];
 		Json["Produkt22"] = data[i]["Produkt22"];
 		Json["Gewinn22"] = data[i]["Gewinn22"];
@@ -123,7 +123,7 @@ const createXlsxAndCsv = function(data){
 }
 
 const readFile = function(files) {
-	
+	data = [];
 	for(var i = 0; i < files.length; i++){
 		let f = files[i];
 		let reader = new FileReader();
@@ -142,6 +142,7 @@ const readFile = function(files) {
 };
 
 const handleReadBtn = async function() {
+	data = [];
 	const o = await electron.dialog.showOpenDialog({
 		title: 'Select a file',
 		filters: [{
