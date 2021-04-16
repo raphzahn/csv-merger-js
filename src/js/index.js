@@ -3,7 +3,6 @@ const csv = require('csvtojson')
 const electron = require('electron').remote;
 const iconv = require('iconv-lite');
 const fs = require('fs') ;
-const rimraf = require("rimraf");
 const fsPromis = fs.promises;
 const path = require('path');
 
